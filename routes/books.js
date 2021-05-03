@@ -41,6 +41,7 @@ router.post("/", async function (req, res, next) {
       return next(error);
     }
     const book = await Book.create(req.body);
+    console.log(book);
     return res.status(201).json({ book });
   } catch (err) {
     return next(err);

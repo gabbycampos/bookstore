@@ -7,7 +7,7 @@ const Book = require("../models/book");
 
 beforeEach(async function () {
     let u1 = await Book.create({
-      isbn: "069116151",
+      isbn: "0691161518",
       amazon_url: "http://a.co/eobPtX2",
       author: "Matthew Lane",
       language: "english",
@@ -29,6 +29,21 @@ beforeEach(async function () {
       });
   });
   // GET single book
+describe("GET books/:isbn", function() {
+    test("return one book", async function() {
+        let resp = await request(app).get("/books/0691161518");
+        expect(resp.statusCode).toBe(200);
+        expect(resp.body.book).toHaveProperty("isbn");
+        expect(resp.bocy.book.isbn).toBe("0691161518");
+    });
+    test("Invalid isbn", async function() {
+        let resp = await request(app).get("/books/0691161518");
+
+        expect(resp.statusCode).toBe(404);
+    });
+});
+
+// POST create a book
 
 
 
