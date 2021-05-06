@@ -34,14 +34,15 @@ router.get("/:id", async function (req, res, next) {
 router.post("/", async function (req, res, next) {
   try {
     const result = jsonschema.validate(req.body, bookSchema);
+    //console.log('***********', result);
+    // console.log('*********', req.body);
     if (!result.valid) {
-      console.log('***********', result);
       let listOfErrors = result.errors.map(error => error.stack);
       let error = new ExpressError(listOfErrors, 400);
       return next(error);
     }
-    const book = await Book.create(req.body);
-    console.log(book);
+    const book = await Book.create(req.body.book);
+    // console.log(req.body);
     return res.status(201).json({ book });
   } catch (err) {
     return next(err);
@@ -58,7 +59,7 @@ router.put("/:isbn", async function (req, res, next) {
       let error = new ExpressError(listOfErrors, 400);
       return next(error);
     }
-    const book = await Book.update(req.params.isbn, req.body);
+    const book = await Book.update(req.params.isbn, req.body.book);
     return res.json({ book });
   } catch (err) {
     return next(err);
